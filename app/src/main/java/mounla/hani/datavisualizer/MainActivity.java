@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),DataList.class));
+                startActivity(new Intent(getApplicationContext(),PowerBIView.class));
 //                DataGrapper DG = new DataGrapper();
 //                List<BarEntry> entries = DG.getData();
 //                fillChart(entries);

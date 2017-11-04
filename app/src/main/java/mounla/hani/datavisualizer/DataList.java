@@ -25,7 +25,8 @@ public class DataList extends AppCompatActivity {
     private ListView lv;
 
     // URL to get contacts JSON
-    private static String url = "https://api.androidhive.info/contacts/";
+    private static String url = "https://api.androidhive.info/contacts/";//
+     private static String url2 = "https://data.cityofnewyork.us/api/views/kku6-nxdu/rows.json?accessType=DOWNLOAD";//
 
     ArrayList<HashMap<String, String>> contactList;
 
