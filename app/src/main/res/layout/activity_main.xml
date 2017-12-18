@@ -22,13 +22,23 @@
 
     <view
         class="com.rey.material.widget.Button"
-        android:id="@+id/mainButton"
+        android:id="@+id/powerBIBTN"
         layout_centerHorizontal="true"
         layout_marginTop="96dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/barChart"
-        android:text="get Data"
+        android:text="Power BI Report View"
         android:layout_alignParentStart="true"
         android:layout_marginTop="52dp" />
+    <view
+        class="com.rey.material.widget.Button"
+        android:id="@+id/contactsJsonBTN"
+        layout_centerHorizontal="true"
+        layout_marginTop="96dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/powerBIBTN"
+        android:text="Contacts Json Sample"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

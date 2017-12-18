@@ -15,7 +15,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.rey.material.widget.Button;
 
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         barChart = (BarChart)findViewById(R.id.barChart);
 
 
-        Button b = (Button)findViewById(R.id.mainButton);
+        Button b = (Button)findViewById(R.id.powerBIBTN);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

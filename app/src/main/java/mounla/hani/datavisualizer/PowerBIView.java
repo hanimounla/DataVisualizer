@@ -24,5 +24,6 @@ public class PowerBIView extends AppCompatActivity {
         webViewSettings.setPluginState(WebSettings.PluginState.ON);
         webViewSettings.setBuiltInZoomControls(true);
         webViewSettings.setDisplayZoomControls(false);
+        webViewSettings.setSupportZoom(false);
     }
 }
