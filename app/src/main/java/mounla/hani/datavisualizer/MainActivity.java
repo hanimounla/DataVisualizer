@@ -34,11 +34,32 @@ public class MainActivity extends AppCompatActivity {
         barChart = (BarChart)findViewById(R.id.barChart);
 
 
-        Button b = (Button)findViewById(R.id.powerBIBTN);
-        b.setOnClickListener(new View.OnClickListener() {
+        Button powerBI = (Button)findViewById(R.id.powerBIBTN);
+        powerBI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),PowerBIView.class));
+//                DataGrapper DG = new DataGrapper();
+//                List<BarEntry> entries = DG.getData();
+//                fillChart(entries);
+            }
+        });
+        Button contactsJSON = (Button)findViewById(R.id.contactsJsonBTN);
+        contactsJSON.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),DataList.class));
+//                DataGrapper DG = new DataGrapper();
+//                List<BarEntry> entries = DG.getData();
+//                fillChart(entries);
+            }
+        });
+
+        Button javaScript = (Button)findViewById(R.id.javaScriptBTN);
+        javaScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),JavaScript.class));
 //                DataGrapper DG = new DataGrapper();
 //                List<BarEntry> entries = DG.getData();
 //                fillChart(entries);

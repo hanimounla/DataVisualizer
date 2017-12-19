@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".DataList" />
         <activity android:name=".PowerBIView"></activity>
+        <activity android:name=".JavaScript" />
     </application>
 
 </manifest>

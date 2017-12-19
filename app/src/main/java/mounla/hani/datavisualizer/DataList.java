@@ -103,7 +103,7 @@ public class DataList extends AppCompatActivity {
                         contactList.add(contact);
                     }
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                        Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
