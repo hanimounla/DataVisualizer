@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary  'org.apache.http.legacy'
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
     defaultConfig {
@@ -27,6 +28,8 @@ dependencies {
     // Great library for charts
     // Great library for themes and styles
     compile 'com.android.volley:volley:1.1.0'
+    compile 'org.apache.httpcomponents:httpcore:4.4.1'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.github.rey5137:material:1.2.4'
