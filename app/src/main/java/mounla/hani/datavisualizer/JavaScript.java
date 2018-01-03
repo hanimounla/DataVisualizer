@@ -1,20 +1,15 @@
 package mounla.hani.datavisualizer;
 
 import android.app.Activity;
-import android.app.DownloadManager;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.QuickContactBadge;
 import android.widget.Toast;
-import android.widget.ZoomButton;
-
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,12 +17,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Hani Mounla on 2017-12-19.
@@ -35,8 +27,9 @@ import java.util.Map;
 
 public class JavaScript extends Activity {
 
-    String url = "https://ussouthcentral.services.azureml.net/workspaces/264711fbdc9d48ba8205ed385fce483e/services/050153fa554e4b5786d21ae02389e276/execute?api-version=2.0&details=true";
-    final String accesstoken = "VlDmE4z0FVLayQqOYjcslYbGVUi7uM5kxTzcgVj9aAyXM1s455mZ4a3Vdpi3xfLNwIIYBIlgFEBdj66eX9dsjg==";
+    String url = "https://ussouthcentral.services.azureml.net/workspaces/31fcdd36e00945959a2540c55083227b/services/6fb9d74c8e9047759610a8012ec92fb3/execute?api-version=2.0&details=true";
+    final String accesstoken = "QC5QWrmlowHlJRdhM1wqSiXyJ6nlqM6Hto40fB5UfLrC+XyoSokbnL6KNtVRXjgD3p12IeSj0CcpG7qbybdARQ==";
+    String response = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +44,9 @@ public class JavaScript extends Activity {
         azureBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Dude d = new Dude();
+                d.execute("");
+
 //                tryPost();
 //                JSONObject parameters = new JSONObject();
 //                try {
@@ -70,22 +66,64 @@ public class JavaScript extends Activity {
             }
         });
     }
+
+    public class Dude extends AsyncTask<String,String,String>
+    {
+
+        String responseString;
+        JSONObject responseJSON;
+
+        @Override
+        protected void onPostExecute(String r) {
+            try {
+                responseJSON = new JSONObject(responseString);
+                JSONObject Results = responseJSON.getJSONObject("Results");
+                JSONObject Predected_Wheat_type_output = Results.getJSONObject("wheat_type");
+                JSONObject value = Predected_Wheat_type_output.getJSONObject("value");
+                JSONArray Values = value.getJSONArray("Values");
+                JSONArray wheat_type = Values.getJSONArray(0);
+                Toast.makeText(JavaScript.this, wheat_type.get(0).toString(), Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            responseString = rrsHttpPost();
+            return null;
+        }
+    }
     public String rrsHttpPost() {
 
         HttpPost post;
-        HttpClient client;
+        AndroidHttpClient client ;
         StringEntity entity;
+        String Body = "{\n" +
+                "\t\"Inputs\": {\n" +
+                "        \"inputs\": {\n" +
+                "          \"ColumnNames\": [\"id\",\"area\",\"perimeter\",\"compactness\",\"length\",\"width\",\"asymmetry\",\"groove\",\"wheat_type\"],\n" +
+                "          \"Values\": [[\"\",\"13.07\",\"13.92\",\"0.848\",\"5.472\",\"2.994\",\"5.304\",\"5.395\",\"\"]]\n" +
+                "        }\n" +
+                "      }\n" +
+                "}";
+        JSONObject jsonBody =null;
+        try {
+            jsonBody = new JSONObject(Body);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         try {
             // create HttpPost and HttpClient object
             post = new HttpPost(url);
-            client = new HttpClient();
+            client = AndroidHttpClient.newInstance("Microsoft");
 
             // setup output message by copying JSON body into
             // apache StringEntity object along with content type
-            entity = new StringEntity(jsonBody, HTTP.UTF_8);
-            entity.setContentEncoding(HTTP.UTF_8);
-            entity.setContentType("text/json");
+            entity = new StringEntity(String.valueOf(jsonBody));
+            entity.setContentType("application/json");
 
             // add HTTP headers
             post.setHeader("Accept", "text/json");
@@ -93,6 +131,7 @@ public class JavaScript extends Activity {
 
             // set Authorization header based on the API key
             post.setHeader("Authorization", ("Bearer " + accesstoken));
+            post.setHeader("Content-Type", "application/json");
             post.setEntity(entity);
 
             // Call REST API and retrieve response content
