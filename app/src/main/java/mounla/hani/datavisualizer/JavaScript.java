@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -17,6 +18,16 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.List;
+
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 /**
  * Created by Hani Mounla on 2017-12-19.
@@ -69,6 +80,53 @@ public class JavaScript extends Activity {
 
             }
         });
+
+        Button sp_today = (Button)findViewById(R.id.test_sp_today_BTN);
+        sp_today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dude_SP d = new Dude_SP();
+                d.execute("");
+            }
+        });
+    }
+
+    public class Dude_SP extends AsyncTask<String,String,String>
+    {
+
+        String sp_today_url = "https://sp-today.com/en/currency/us_dollar";
+        String sell_value, buy_value;
+
+        @Override
+        protected void onPostExecute(String r) {
+
+            Toast.makeText(JavaScript.this, "Sell: " + sell_value + "\n" + "Buy: " + buy_value, Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(sp_today_url).get();
+                Elements elements = doc.getElementsByAttributeValue("class", "table cur-info-table");
+                Element element = elements.get(0);
+                List<Node> nodes = element.childNodes();
+
+                Node values = nodes.get(2);
+                Node values_in = values.childNodes().get(1);
+                List <Node> dollars = values_in.childNodes();
+
+                Element sell_element = (Element) dollars.get(7);
+                Element buy_element = (Element)dollars.get(3);
+
+                sell_value = sell_element.text();
+                buy_value = buy_element.text();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 
     public class Dude extends AsyncTask<String,String,String>
